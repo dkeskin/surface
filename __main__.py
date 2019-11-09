@@ -25,7 +25,7 @@ where `python` is Python3.8 version and `surface` is relative or absolute path t
             #(...)
 """
 
-from src import *
+from src import gui
 
 
 if __name__ == "__main__":

@@ -51,7 +51,7 @@ class Screen(QWidget, abc.ABC, metaclass=type("_", (type(abc.ABC), type(QWidget)
     """
 
     Loading = 0
-    Home = 1
+    Indicator = 1
 
     def __init__(self):
         """
