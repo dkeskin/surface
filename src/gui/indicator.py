@@ -87,6 +87,7 @@ class Indicator(Screen):
         self.number_rotation_x = x
         self.number_rotation_y = y
         self.number_rotation_z = z
+        self._update()
 
     def _update(self):
         indicator.Leak_Sensor().update(self.number_leak)
