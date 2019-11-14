@@ -12,7 +12,7 @@ Interaction with this module should only happen via the :func:`start` function.
 
 from PySide2.QtWidgets import QApplication as _QApplication
 from .loading import Loading as _Loading
-from .indicator import Indicator as _Indicator
+from .sample import Sample as _Sample
 from .utils import ScreenManager as _ScreenManager, Screen as _Screen
 from ..log import Log
 
@@ -27,11 +27,11 @@ def start():
     app = _QApplication()
 
     # Create and configure the screen manager, load all assets and switch to the home screen
-    manager = _ScreenManager(_Loading(), _Indicator())
+    manager = _ScreenManager(_Loading(), _Sample())
     manager.post_init()
     manager.show()
     manager.screen.load()
-    manager.screen = _Screen.Indicator
+    manager.screen = _Screen.Sample
 
     # Start the application and later exit with its return code
     Log.info("Application started")
