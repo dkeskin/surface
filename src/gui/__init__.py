@@ -14,7 +14,7 @@ from PySide2.QtWidgets import QApplication as _QApplication
 from .loading import Loading as _Loading
 from .indicator import Indicator as _Indicator
 from .utils import ScreenManager as _ScreenManager, Screen as _Screen
-from ..log import Log
+from ..common import Log
 
 
 def start():
