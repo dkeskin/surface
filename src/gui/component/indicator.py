@@ -1,4 +1,5 @@
 from PySide2.QtWidgets import *
+from PySide2.QtGui import QTransform
 
 _NORMAL_LEAK = 20
 _NORMAL_TEMPERATURE = 30
@@ -72,10 +73,10 @@ class Indicator(QGraphicsScene):
             self._color = self.color[2]
             self._indicator = self.indicator[2]
 
-    def update(self, number):
+    def _update(self, number):
         self.number = number
-        self._set_statue()
-        self._set_html(self._color)
+        self.clear()
+        self._set_indicator()
 
 
 class Leak_Sensor(Indicator):
@@ -99,7 +100,7 @@ class Depth(Indicator):
 class Acceleration(Indicator):
 
     def __init__(self):
-        super().__init__(_NORMAL_ACCELERATION, _CRITICAL_ACCELERATION, "Acceleration", "m", 4.5)
+        super().__init__(_NORMAL_ACCELERATION, _CRITICAL_ACCELERATION, "Acceleration", "m/s2", 4.5)
 
 
 class Rotation(QGraphicsScene):
@@ -125,10 +126,10 @@ class Rotation(QGraphicsScene):
         self.text_x.setHtml(self.html_x)
         self.text_y.setHtml(self.html_y)
         self.text_z.setHtml(self.html_z)
-        self.text_name.setPos(90, 40)
-        self.text_x.setPos(20, 70)
-        self.text_y.setPos(150, 70)
-        self.text_z.setPos(70, 130)
+        self.text_name.setPos(90, 30)
+        self.text_x.setPos(50, 70)
+        self.text_y.setPos(120, 70)
+        self.text_z.setPos(70, 100)
 
     def _set_html(self):
         self.html_name = r'''
@@ -138,25 +139,27 @@ class Rotation(QGraphicsScene):
                         '''
         self.html_x = r'''
                          <p>
-                            <span style="font-size: 42px; color: rgb(157, 206, 209);">X: ''' + str(
+                            <span style="font-size: 24px; color: rgb(157, 206, 209);">X: ''' + str(
             self.number_rotation_x) + '''°</span><br/>
                         </p>
                         '''
         self.html_y = r'''
                          <p>
-                            <span style="font-size: 42px; color: rgb(157, 206, 209);">Y: ''' + str(
+                            <span style="font-size: 24px; color: rgb(157, 206, 209);">Y: ''' + str(
             self.number_rotation_y) + '''°</span><br/>
                         </p>
                         '''
         self.html_z = r'''
                          <p>
-                            <span style="font-size: 42px; color: rgb(157, 206, 209);">Z: ''' + str(
+                            <span style="font-size: 24px; color: rgb(157, 206, 209);">Z: ''' + str(
             self.number_rotation_z) + '''°</span><br/>
                         </p>
                         '''
 
-    def update(self, x, y, z):
+    def _update(self, x, y, z):
         self.number_rotation_x = x
         self.number_rotation_y = y
         self.number_rotation_z = z
-        self._set_html()
+        self.clear()
+        self._set_rotation()
+        self.update()
