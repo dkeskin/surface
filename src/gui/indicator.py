@@ -2,7 +2,8 @@ from .utils import Screen
 from PySide2.QtWidgets import *
 from PySide2.QtGui import QBrush, QColor
 from PySide2.QtCore import Qt
-from .component import indicator
+from .component.indicator import Leak_Sensor, Temperature, Depth, Acceleration, Rotation
+from src.gui.gui_process.process_management import Process_On
 
 
 class Indicator(Screen):
@@ -33,7 +34,15 @@ class Indicator(Screen):
         self.box_acceleration = QGraphicsView()
         self.box_rotation = QGraphicsView()
 
+        self.scene_leak = Leak_Sensor()
+        self.scene_temperature = Temperature()
+        self.scene_depth = Depth()
+        self.scene_acceleration = Acceleration()
+        self.scene_rotation = Rotation()
+
         self._config()
+        self.process = Process_On(self)
+        self.process.start()
 
     def _config(self):
         """
@@ -63,11 +72,11 @@ class Indicator(Screen):
         self.box_rotation.setStyleSheet("border: 0px")
 
     def _set_indicator(self):
-        self.box_leak.setScene(indicator.Leak_Sensor())
-        self.box_temperature.setScene(indicator.Temperature())
-        self.box_depth.setScene(indicator.Depth())
-        self.box_acceleration.setScene(indicator.Acceleration())
-        self.box_rotation.setScene(indicator.Rotation())
+        self.box_leak.setScene(Leak_Sensor())
+        self.box_temperature.setScene(Temperature())
+        self.box_depth.setScene(Depth())
+        self.box_acceleration.setScene(Acceleration())
+        self.box_rotation.setScene(Rotation())
 
         self.brush = QBrush()
         self.brush.setColor(QColor(8, 64, 67))
@@ -90,11 +99,16 @@ class Indicator(Screen):
         self._update()
 
     def _update(self):
-        indicator.Leak_Sensor().update(self.number_leak)
-        indicator.Temperature().update(self.number_temperature)
-        indicator.Depth().update(self.number_depth)
-        indicator.Acceleration().update(self.number_acceleration)
-        indicator.Rotation().update(self.number_rotation_x, self.number_rotation_y, self.number_rotation_z)
+        self.scene_leak._update(self.number_leak)
+        self.scene_temperature._update(self.number_temperature)
+        self.scene_depth._update(self.number_depth)
+        self.scene_acceleration._update(self.number_acceleration)
+        self.scene_rotation._update(self.number_rotation_x, self.number_rotation_y, self.number_rotation_z)
+        self.box_leak.setScene(self.scene_leak)
+        self.box_temperature.setScene(self.scene_temperature)
+        self.box_depth.setScene(self.scene_depth)
+        self.box_acceleration.setScene(self.scene_acceleration)
+        self.box_rotation.setScene(self.scene_rotation)
 
     def _set_style(self):
         """
